@@ -60,35 +60,19 @@ namespace QuanLySinhVienApp
             }
         }
 
-        public Student SearchStudent(string studentID)
+        public Student SearchStudent(string searchValue)
         {
-            if (int.TryParse(studentID, out int id))
+            if (int.TryParse(searchValue, out int id))
             {
-                return Students.Find(s => s.StudentID == id);
+                return Students.FirstOrDefault(s => s.StudentID == id);
             }
             else
             {
-                Console.WriteLine("Invalid ID format.");
-                return null;
-            }
-        }
-        public Student SearchStudentByID(string studentID)
-        {
-            if (int.TryParse(studentID, out int id))
-            {
-                return Students.Find(s => s.StudentID == id);
-            }
-            else
-            {
-                Console.WriteLine("Invalid ID format.");
-                return null;
+                return Students.FirstOrDefault(s => s.Name.Equals(searchValue, StringComparison.OrdinalIgnoreCase));
             }
         }
 
-        public Student SearchStudentByName(string name)
-        {
-            return Students.Find(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-        }
+
 
 
         public void AddSubject(Subject subject)

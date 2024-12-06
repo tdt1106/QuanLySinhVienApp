@@ -12,10 +12,10 @@ namespace QuanLySinhVienApp
         public int StudentID { get; set; }
         public string Name { get; set; }
         public StudentStatus Status { get; set; }
-        public Teacher Teacher { get; set; }
+        public Teacher? Teacher { get; set; }
         public List<Score> Scores { get; set; }
 
-        public Student( string name, StudentStatus status, Teacher teacher)
+        public Student( string name, StudentStatus status, Teacher? teacher)
         {
             StudentID = _nextId++; 
             Name = name;
@@ -42,7 +42,15 @@ namespace QuanLySinhVienApp
         }
         public void DisplayInformation()
         {
-            Console.WriteLine($"Id: {StudentID}, Full name: {Name}, Status: {Status}, Teacher: {Teacher.NameTeacher}");
+            Console.WriteLine($"Id: {StudentID}, Full name: {Name}, Status: {Status}");
+            if (Teacher != null)
+            {
+                Console.WriteLine($"Teacher: {Teacher.NameTeacher}");
+            }
+            else
+            {
+                Console.WriteLine("No teacher assigned.");
+            }
             foreach (var score in Scores)
             {
                 Console.WriteLine($"Subject: {score.Subject.SubjectName}, Score: {score.PointsAchieved}");
