@@ -11,11 +11,11 @@ namespace QuanLySinhVienApp
         private static int _nextId = 1;
         public int StudentID { get; set; }
         public string Name { get; set; }
-        public string Status { get; set; }
+        public StudentStatus Status { get; set; }
         public Teacher Teacher { get; set; }
         public List<Score> Scores { get; set; }
 
-        public Student( string name, string status, Teacher teacher)
+        public Student( string name, StudentStatus status, Teacher teacher)
         {
             StudentID = _nextId++; 
             Name = name;
@@ -38,7 +38,7 @@ namespace QuanLySinhVienApp
 
         public string Classify()
         {
-            return Status;
+            return Status.ToString();
         }
         public void DisplayInformation()
         {
@@ -48,5 +48,12 @@ namespace QuanLySinhVienApp
                 Console.WriteLine($"Subject: {score.Subject.SubjectName}, Score: {score.PointsAchieved}");
             }
         }
+        public enum StudentStatus
+        {
+            Active,   // Đang học
+            Suspended, // Nghỉ học
+            Deferred   // Bảo lưu
+        }
+
     }
 }

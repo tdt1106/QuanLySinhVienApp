@@ -1,10 +1,13 @@
 ﻿
+using System.Text;
 using QuanLySinhVienApp;
+using static QuanLySinhVienApp.Student;
 
 public class Program
 {
     public static void Main(string[] args)
     {
+        Console.OutputEncoding = Encoding.UTF8;
         ListStudents manager = new ListStudents();
 
         while (true)
@@ -60,29 +63,35 @@ public class Program
                         }
                     }
 
+                    Console.WriteLine("Select Student Status: ");
+                    Console.WriteLine("1. Active (Đang học)");
+                    Console.WriteLine("2. Suspended (Nghỉ học)");
+                    Console.WriteLine("3. Deferred (Bảo lưu)");
 
-
-                    Console.WriteLine("Enter Status (active, suspended, etc.):");
-                    string status;
-                    do
+                    StudentStatus status;
+                    while (true)
                     {
-                        Console.WriteLine("Enter Status: (1 for active, 2 for suspended)");
                         string input = Console.ReadLine();
                         if (input == "1")
                         {
-                            status = "active";
+                            status = StudentStatus.Active;
+                            break;
                         }
                         else if (input == "2")
                         {
-                            status = "suspended";
+                            status = StudentStatus.Suspended;
+                            break;
+                        }
+                        else if (input == "3")
+                        {
+                            status = StudentStatus.Deferred;
+                            break;
                         }
                         else
                         {
-                            status = null;  
-                            Console.WriteLine("Invalid input. Please enter 1 for active or 2 for suspended.");
+                            Console.WriteLine("Invalid input. Please enter 1, 2, or 3.");
                         }
-                    } while (status == null);
-
+                    }
 
                     string nameTeacher = "";
                     while (string.IsNullOrWhiteSpace(nameTeacher))   
@@ -134,12 +143,31 @@ public class Program
                     break;
 
                 case "3":
-                    Console.WriteLine("Enter Student ID to search:");
-                    string searchID = Console.ReadLine();
+                    Console.WriteLine("Search by:");
+                    Console.WriteLine("1. Student ID");
+                    Console.WriteLine("2. Student Name");
+                    string searchOption = Console.ReadLine();
 
                     try
                     {
-                        var studentSearch = manager.SearchStudent(searchID);
+                        Student studentSearch = null;
+                        if (searchOption == "1")
+                        {
+                            Console.WriteLine("Enter Student ID to search:");
+                            string searchID = Console.ReadLine();
+                            studentSearch = manager.SearchStudentByID(searchID);
+                        }
+                        else if (searchOption == "2")
+                        {
+                            Console.WriteLine("Enter Student Name to search:");
+                            string searchName = Console.ReadLine();
+                            studentSearch = manager.SearchStudentByName(searchName);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid option.");
+                        }
+
                         if (studentSearch != null)
                         {
                             studentSearch.DisplayInformation();
@@ -154,6 +182,7 @@ public class Program
                         Console.WriteLine("Error: " + ex.Message);
                     }
                     break;
+
 
                 case "4":
                     string subjectName = "";
